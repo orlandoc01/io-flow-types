@@ -1,0 +1,98 @@
+{
+  "name": "io-flow-types",
+  "version": "0.1.0",
+  "description": "Flow compatible runtime type system for IO validation",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src/**/*.js test/**/*.js",
+    "jest": "jest test/index.js",
+    "prettier": "prettier --single-quote --print-width 120 --parser flow --list-different \"{src,test}/**/*.js\"",
+    "fix-prettier": "prettier --single-quote --print-width 120 --parser flow --write \"{src,test,examples,exercises}/**/*.js\"",
+    "test": "npm run prettier && npm run lint && npm run jest && npm run flow-regression",
+    "clean": "rimraf lib/*",
+    "build": "npm run clean && npm run strip-flow",
+    "strip-flow": "./node_modules/.bin/babel src --out-dir lib --copy-files && flow-copy-source src lib",
+    "prepublishOnly": "npm run build",
+    "flow": "flow",
+    "flow-regression": "babel-node scripts/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orlandoc01/io-flow-types.git"
+  },
+  "author": "Orlando Castillo <orlandoc1618@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/orlandoc01/io-flow-types/issues"
+  },
+  "homepage": "https://github.com/orlandoc01/io-flow-types",
+  "peerDependencies": {
+    "flow-bin": ">= 0.81"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "@octokit/rest": "^16.7.0",
+    "@types/benchmark": "1.0.31",
+    "@types/jest": "22.2.2",
+    "@types/node": "7.0.4",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "benchmark": "2.1.4",
+    "eslint": "^5.8.0",
+    "eslint-plugin-flowtype": "^3.1.1",
+    "flow-bin": "^0.86.0",
+    "flow-copy-source": "^2.0.2",
+    "flow-typed": "^2.5.1",
+    "got": "^9.5.0",
+    "jest": "22.4.3",
+    "prettier": "1.13.4",
+    "regenerator-runtime": "^0.13.1",
+    "rimraf": "2.6.2",
+    "semver": "^5.6.0",
+    "unzipper": "^0.9.7"
+  },
+  "tags": [
+    "flow",
+    "validation",
+    "inference",
+    "types",
+    "runtime"
+  ],
+  "keywords": [
+    "typflow",
+    "validation",
+    "inference",
+    "types",
+    "runtime"
+  ],
+  "jest": {
+    "globals": {},
+    "collectCoverage": true,
+    "testRegex": "test",
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "testPathIgnorePatterns": [
+      "helpers.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+docker_image: &docker_image
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:10
+
+version: 2
+jobs:
+  test:
+    <<: *docker_image
+    environment:
+      BATCH_SIZE: 2
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+      # run tests!
+      - run: npm run lint
+      - run: npm run prettier
+      - run: npm run jest
+      - run: npm run flow-regression
+
+  deploy:
+    <<: *docker_image
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish
+
+workflows:
+  version: 2
+  io-flow-types-workflow:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /^v.*/
+      - deploy:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
