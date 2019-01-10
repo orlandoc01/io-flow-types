@@ -205,41 +205,6 @@ type IPerson = {
 type IPerson = $PropertyType<typeof Person, '_A'>;
 ```
 
-# Union Maps
-
-If you are encoding tagged unions, instead of the general purpose `union` combinator, you may want to use the
-`unionMap` combinator in order to get better performances
-
-```javascript
-const A = t.exactAll({
-  tag: t.literal('A'),
-  foo: t.string
-})
-
-const B = t.exactAll({
-  tag: t.literal('B'),
-  bar: t.number
-})
-
-const U = t.unionMap({A, B}, 'tag')
-```
-
-# Refinements
-
-You can refine a type (_any_ type) using the `refinement` combinator
-
-```javascript
-const Adult = t.refinement(Person, person => person.age >= 18, 'Adult')
-```
-
-However, unless you utilize Flow's opaque types, this can't be enforced via a static check. For stricter safety, you should use the `opaqueRefine` function and supply the opaque type as a generic
-
-```javascript
-opaque type Positive: number = number;
-const positive = t.opaqueRefine<typeof t.Number, Positive>(t.Number, num => num > 0, 'Positive')
-```
-
-
 # Mixing required and optional props
 
 You can mix required and optional props using an intersection
@@ -274,6 +239,40 @@ type PartialPerson = {
   name?: string
   age?: number
 }
+```
+
+# Union Maps
+
+If you are encoding tagged unions, instead of the general purpose `union` combinator, you may want to use the
+`unionMap` combinator in order to get better performances
+
+```javascript
+const A = t.exactAll({
+  tag: t.literal('A'),
+  foo: t.string
+})
+
+const B = t.exactAll({
+  tag: t.literal('B'),
+  bar: t.number
+})
+
+const U = t.unionMap({A, B}, 'tag')
+```
+
+# Refinements
+
+You can refine a type (_any_ type) using the `refinement` combinator
+
+```javascript
+const Adult = t.refinement(Person, person => person.age >= 18, 'Adult')
+```
+
+However, unless you utilize Flow's opaque types, this can't be enforced via a static check. For stricter safety, you should use the `opaqueRefine` function and supply the opaque type as a generic
+
+```javascript
+opaque type Positive: number = number;
+const positive = t.opaqueRefine<typeof t.Number, Positive>(t.Number, num => num > 0, 'Positive')
 ```
 
 # Custom types

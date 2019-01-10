@@ -105,7 +105,7 @@ function toString(x: mixed): string {
     return String(x);
   }
   if (typeof x.toString === 'function' && x.toString !== Object.prototype.toString) {
-    return x.toString();
+    return (x.toString: any)();
   }
   return JSON.stringify(x, null);
 }

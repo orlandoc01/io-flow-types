@@ -1,6 +1,6 @@
 {
   "name": "io-flow-types",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Flow compatible runtime type system for IO validation",
   "files": [
     "lib"
@@ -51,7 +51,7 @@
     "benchmark": "2.1.4",
     "eslint": "^5.8.0",
     "eslint-plugin-flowtype": "^3.1.1",
-    "flow-bin": "^0.86.0",
+    "flow-bin": "^0.90.0",
     "flow-copy-source": "^2.0.2",
     "flow-typed": "^2.5.1",
     "got": "^9.5.0",
