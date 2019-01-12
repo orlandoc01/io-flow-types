@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/orlandoc01/io-flow-types/tree/master.svg?style=svg)](https://circleci.com/gh/orlandoc01/io-flow-types/tree/master)
 ![Dependencies](https://david-dm.org/orlandoc01/io-flow-types.svg)
+[![Minzip Size](https://badgen.net/bundlephobia/minzip/io-flow-types)](https://bundlephobia.com/result?p=io-flow-types)
 
 # Summary
 The work that gcanti has done with [io-ts](https://github.com/gcanti/io-ts) is really useful, but it relies on a lot of language semantics that are exclusive to Typescript and the work on [flow-io](https://github.com/gcanti/flow-io) is now deprecated and no longer maintained. As a result, I have forked his work and refactored a lot of the existing combinators/classes so they more easily align with the semantics of [Flow](https://flow.org/). 
