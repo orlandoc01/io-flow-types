@@ -106,12 +106,12 @@ import * as t from 'io-flow-types'
 | intersection              | `A & B`                                 | `t.intersection([ A, B ])`                            |
 | keyof                     | `keyof M`                               | `t.keyof(M)`                                          |
 | refinement                | `A`, `Opaque: A`                        | `t.refinement(A, predicate)` or `t.opaqueRefine<A, Opaque: A>(A, predicate)`                          |
-| exact types               | {\| a: A, b?: B\|}                      | `t.exact({required: {a :A}, optional: {b: B}})`|
-|                           | {\| a: A, b: B \|}                       | `t.exactAll({a: A, b: B})` |
-|                           | {\| a?: A, b?: B \|}                    | `t.exactShape({a: A, b: B}` |
-| inexact types             | { a: A, b: b }                          | `t.inexact({required: {a: A}, optional: {b: B}})` |
-|                           | { a: A, b: B }                          | `t.inexactAll({a: A, b: B})` |
-|                           | { a?: A, b?: B }                        | `t.inexactShape({a: A, b: B})` |
+| exact types               | `{\| a: A, b?: B \|}`                      | `t.exact({required: {a :A}, optional: {b: B}})`|
+|                           | `{\| a: A, b: B \|}`                       | `t.exactAll({a: A, b: B})` |
+|                           | `{\| a?: A, b?: B \|}`                    | `t.exactShape({a: A, b: B}` |
+| inexact types             | `{ a: A, b: b }`                          | `t.inexact({required: {a: A}, optional: {b: B}})` |
+|                           | `{ a: A, b: B }`                          | `t.inexactAll({a: A, b: B})` |
+|                           | `{ a?: A, b?: B }`                        | `t.inexactShape({a: A, b: B})` |
 
 *Note*: Assume `A` and `B` are instances of the `t.Type` class
 
