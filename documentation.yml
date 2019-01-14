@@ -1,0 +1,18 @@
+toc:
+  - name: Functions
+    children:
+      - refinement
+      - opaqueRefine
+  - name: Classes
+    children:
+      - Type
+  - name: Types
+    description: |
+      Here are some helper functions for navigation.
+    children:
+      - ContextEntry
+      - Context
+      - ValidationError
+      - Validate
+      - Decode
+      - Encode

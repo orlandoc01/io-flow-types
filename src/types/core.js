@@ -35,6 +35,9 @@ export interface Encoder<A, +O> {
   +encode: Encode<A, O>;
 }
 
+/** Represents Runtime Type A, which can be encoded to Types O and decoded from Types I
+ * @since 0.1.0
+ */
 export class Type<A, +O = A, I = mixed> implements Decoder<I, A>, Encoder<A, O> {
   +_A: A;
   +_O: O;
@@ -44,13 +47,9 @@ export class Type<A, +O = A, I = mixed> implements Decoder<I, A>, Encoder<A, O> 
   +validate: Validate<I, A>;
   +encode: Encode<A, O>;
   constructor(
-    /** a unique name for this runtime type */
     name: string,
-    /** a custom type guard */
     is: Is<A>,
-    /** succeeds if a value of type I can be decoded to a value of type A */
     validate?: Validate<I, A> = (m, c) => (is(m) ? success((m: any)) : failure(m, c)),
-    /** converts a value of type A to a value of type O */
     encode?: Encode<A, O> = (identity: any)
   ) {
     this.name = name;
@@ -58,10 +57,16 @@ export class Type<A, +O = A, I = mixed> implements Decoder<I, A>, Encoder<A, O> 
     this.validate = validate;
     this.encode = encode;
   }
-  /** a version of `validate` with a default context */
+  /** a version of `validate` with a default context
+   * @since 0.1.0
+   */
   decode(i: I): Validation<A> {
     return this.validate(i, getDefaultContext(this));
   }
+  /** takes an exisiting type whose _I and _O generics match the current type's _A type and returns a new
+   * type composed with the provided one. A name can be optionally provided
+   * @since 0.1.0
+   */
   pipe<B>(ab: Type<B, A, A>, name?: string): Type<B, O, I> {
     const custEncode = b => this.encode(ab.encode(b));
     const encode = this.encode === identity && ab.encode === identity ? (identity: any) : custEncode;
@@ -79,9 +84,15 @@ export class Type<A, +O = A, I = mixed> implements Decoder<I, A>, Encoder<A, O> 
       encode
     );
   }
+  /** returns the type as a Decoder interface
+   * @since 0.1.0
+   */
   asDecoder(): Decoder<I, A> {
     return this;
   }
+  /** returns the type as an Encoder interface
+   * @since 0.1.0
+   */
   asEncoder(): Encoder<A, O> {
     return this;
   }

@@ -1,0 +1,1213 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>io-flow-types 0.1.1 | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
+  <link href='assets/style.css' type='text/css' rel='stylesheet' />
+  <link href='assets/github.css' type='text/css' rel='stylesheet' />
+  <link href='assets/split.css' type='text/css' rel='stylesheet' />
+  <meta name='description' content='Flow compatible runtime type system for IO validation'>
+</head>
+<body class='documentation m0'>
+    <div class='flex'>
+      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'>io-flow-types</h3>
+          <div class='mb1'><code>0.1.1</code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#null'
+                  class="">
+                  Null
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#undefined'
+                  class="">
+                  Undefined
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#void'
+                  class="">
+                  Void
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#any'
+                  class="">
+                  Any
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#string'
+                  class="">
+                  String
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#number'
+                  class="">
+                  Number
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#boolean'
+                  class="">
+                  Boolean
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#arraytype'
+                  class="">
+                  arrayType
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#dictionary'
+                  class="">
+                  Dictionary
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#object'
+                  class="">
+                  object
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#never'
+                  class="">
+                  Never
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#type'
+                  class=" toggle-sibling">
+                  Type
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#typedecode'
+                        class='regular pre-open'>
+                        #decode
+                      </a></li>
+                      
+                      <li><a
+                        href='#typepipe'
+                        class='regular pre-open'>
+                        #pipe
+                      </a></li>
+                      
+                      <li><a
+                        href='#typeasdecoder'
+                        class='regular pre-open'>
+                        #asDecoder
+                      </a></li>
+                      
+                      <li><a
+                        href='#typeasencoder'
+                        class='regular pre-open'>
+                        #asEncoder
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#opaquerefine'
+                  class="">
+                  opaqueRefine
+                  
+                </a>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div id='split-right' class='relative overflow-auto height-viewport-100'>
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='null'>
+      Null
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> (<code>Type&#x3C;null, null, mixed</code>>) that decodes <code>null</code> instances.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>Null</div>
+   
+  
+    <p>
+      Type:
+      NullType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='undefined'>
+      Undefined
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> (<code>Type&#x3C;undefined, undefined, mixed</code>>) that decodes <code>undefined</code> instances.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>Undefined</div>
+   
+  
+    <p>
+      Type:
+      UndefinedType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='void'>
+      Void
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> (<code>Type&#x3C;void, void, mixed</code>>) that decodes <code>void</code> instances.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>Void</div>
+   
+  
+    <p>
+      Type:
+      VoidType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='any'>
+      Any
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> (<code>Type&#x3C;any, any, mixed</code>>) that decodes <code>any</code> instances.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>Any</div>
+   
+  
+    <p>
+      Type:
+      AnyType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='string'>
+      String
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> (<code>Type&#x3C;string, string, mixed</code>>) that decodes <code>string</code> instances.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>String</div>
+   
+  
+    <p>
+      Type:
+      StringType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='number'>
+      Number
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> (<code>Type&#x3C;number, number, mixed</code>>) that decodes <code>number</code> instances.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>Number</div>
+   
+  
+    <p>
+      Type:
+      NumberType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='boolean'>
+      Boolean
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> (<code>Type&#x3C;boolean, boolean, mixed</code>>) that decodes <code>boolean</code> instances.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>Boolean</div>
+   
+  
+    <p>
+      Type:
+      BooleanType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='arraytype'>
+      arrayType
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> (<code>Type&#x3C;Array&#x3C;mixed>, Array&#x3C;mixed>, mixed</code>>) that decodes an Array instances.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>arrayType</div>
+   
+  
+    <p>
+      Type:
+      MixedArrayType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='dictionary'>
+      Dictionary
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> that decodes Dictionary instances (which are repesented with flow as { [key: string]: mixed }).</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>Dictionary</div>
+   
+  
+    <p>
+      Type:
+      MixedDictionaryType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='object'>
+      object
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> that decodes Object instances.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>object</div>
+   
+  
+    <p>
+      Type:
+      ObjectType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='never'>
+      Never
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>an instance of <code>Type</code> that will not decode values of any type and will fail encoding anything</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>Never</div>
+   
+  
+    <p>
+      Type:
+      NeverType
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='type'>
+      Type
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Represents Runtime Type A, which can be encoded to Types O and decoded from Types I</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>new Type(name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, is: Is&#x3C;A>, validate: Validate&#x3C;I, A>, encode: Encode&#x3C;A, O>)</div>
+   
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>name</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>is</span> <code class='quiet'>(Is&#x3C;A>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>validate</span> <code class='quiet'>(Validate&#x3C;I, A>
+            = <code>(m,c)=&gt;is(m)?success((m:any)):failure(m,c)</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>encode</span> <code class='quiet'>(Encode&#x3C;A, O>
+            = <code>(identity:any)</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='typedecode'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>decode(i)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>a version of <code>validate</code> with a default context</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>decode(i: I): Validation&#x3C;A></div>
+   
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>i</span> <code class='quiet'>(I)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>Validation&#x3C;A></code>
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='typepipe'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>pipe(ab, name)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>takes an exisiting type whose _I and _O generics match the current type's _A type and returns a new
+type composed with the provided one. A name can be optionally provided</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>pipe(ab: <a href="#type">Type</a>&#x3C;B, A, A>, name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="#type">Type</a>&#x3C;B, O, I></div>
+   
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>ab</span> <code class='quiet'>(<a href="#type">Type</a>&#x3C;B, A, A>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>name</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="#type">Type</a>&#x3C;B, O, I></code>
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='typeasdecoder'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>asDecoder()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>returns the type as a Decoder interface</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>asDecoder(): Decoder&#x3C;I, A></div>
+   
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>Decoder&#x3C;I, A></code>
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='typeasencoder'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>asEncoder()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>returns the type as an Encoder interface</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>asEncoder(): Encoder&#x3C;A, O></div>
+   
+  
+  
+
+  
+  
+  
+  
+  
+  <div>Since: 0.1.0</div>
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>Encoder&#x3C;A, O></code>
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='opaquerefine'>
+      opaqueRefine
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Special refinement that allows users to supply an Opaque Type as the A parameter of the Type class</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>opaqueRefine(type: RT, predicate: Predicate&#x3C;$PropertyType&#x3C;RT, <code>"_A"</code>>>, name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="#type">Type</a>&#x3C;Opaque, $PropertyType&#x3C;RT, <code>"_O"</code>>, $PropertyType&#x3C;RT, <code>"_I"</code>>></div>
+   
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>type</span> <code class='quiet'>(RT)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>predicate</span> <code class='quiet'>(Predicate&#x3C;$PropertyType&#x3C;RT, <code>"_A"</code>>>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>name</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="#type">Type</a>&#x3C;Opaque, $PropertyType&#x3C;RT, <code>"_O"</code>>, $PropertyType&#x3C;RT, <code>"_I"</code>>></code>
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+        
+      </div>
+    </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/split.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>

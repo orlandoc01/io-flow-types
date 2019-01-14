@@ -50,17 +50,12 @@ export class PropsType<P: Props, A: Obj, O: Obj = A, I = mixed> extends Type<A, 
   +required: $ReadOnlyArray<$Keys<P>>;
   +allowAdditional: boolean;
   constructor(
-    /** a unique name for this runtime type */
     name: string,
-    /** The following three properties are used to describe the overall shape of the object*/
     props: P,
     required: $ReadOnlyArray<$Keys<P>>,
     allowAdditional: boolean,
-    /** a custom type guard */
     is?: Is<A> = makeIs(props, required, allowAdditional),
-    /** succeeds if a value of type I can be decoded to a value of type A */
     validate?: Validate<I, A> = makeValidate(props, new Set(required), allowAdditional),
-    /** converts a value of type A to a value of type O */
     encode?: Encode<A, O> = makeEncode<A, O, P>(props)
   ) {
     super(name, is, validate, encode);

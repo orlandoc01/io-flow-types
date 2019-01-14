@@ -10,16 +10,11 @@ type Inexact<Required: Props, Optional: Props> = {
 
 export class InexactPropsType<P: Props, A: Obj, O: Obj, I> extends PropsType<P, A, O, I> {
   constructor(
-    /** a unique name for this runtime type */
     name: string,
-    /** The following two properties are used to describe the overall shape of the object*/
     props: P,
     required: $ReadOnlyArray<$Keys<P>>,
-    /** a custom type guard */
     is?: Is<A>,
-    /** succeeds if a value of type I can be decoded to a value of type A */
     validate?: Validate<I, A>,
-    /** converts a value of type A to a value of type O */
     encode?: Encode<A, O>
   ) {
     super(name, props, required, true, is, validate, encode);
