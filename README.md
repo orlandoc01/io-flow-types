@@ -85,9 +85,9 @@ import * as t from 'io-flow-types'
 
 | Type                      | Flow                              | Runtime type / combinator                             |
 | ------------------------- | --------------------------------------- | ----------------------------------------------------- |
-| null                      | `null`                                  | `t.Null`                             |
+| null                      | `null`                                  | `t.Null`                                              |
 | undefined                 | `undefined`                             | `t.Undefined`                                         |
-| void                      | `void`                                  | `t.Void`                              |
+| void                      | `void`                                  | `t.Void`                                              |
 | string                    | `string`                                | `t.String`                                            |
 | number                    | `number`                                | `t.Number`                                            |
 | boolean                   | `boolean`                               | `t.Boolean`                                           |
@@ -95,23 +95,23 @@ import * as t from 'io-flow-types'
 | never                     | `never`                                 | `t.Never`                                             |
 | object                    | `object`                                | `t.object`                                            |
 | integer                   | ✘                                       | `t.Integer`                                           |
-| literal                   | `'s'`                                   | `t.literal<'s'>('s')`                                      |
-| array of any              | `Array<mixed>`                          | `t.arrayType`                                             |
+| literal                   | `'s'`                                   | `t.literal<'s'>('s')`                                 |
+| array of any              | `Array<mixed>`                          | `t.arrayType`                                         |
 | array of type             | `Array<A>`                              | `t.array(A)`                                          |
-| readonly array            | `$ReadOnlyArray<A>`                | `t.readonlyArray(A)`                         
+| readonly array            | `$ReadOnlyArray<A>`                     | `t.readonlyArray(A)`                                  |
 | dictionary of any         | `{ [key: string]: mixed }`              | `t.Dictionary`                                        |
 | dictionary of type        | `{ [key: A]: B }`                       | `t.dictionary(A, B)`                                  |
 | tuple                     | `[ A, B ]`                              | `t.tuple([ A, B ])`                                   |
-| union                     | `A | B`                                | `t.union([ A, B ])` or `t.unionMap({tagVal1: A, tagVal2: B}, toTagName | tagName)` |
+| union                     | `A \| B`                                | `t.union([ A, B ])` or <br> `t.unionMap({tagVal1: A, tagVal2: B}, tagName)` |
 | intersection              | `A & B`                                 | `t.intersection([ A, B ])`                            |
 | keyof                     | `keyof M`                               | `t.keyof(M)`                                          |
-| refinement                | `A`, `Opaque: A`                        | `t.refinement(A, predicate)` or `t.opaqueRefine<A, Opaque: A>(A, predicate)`                          |
-| exact types               | `{\| a: A, b?: B \|}`                      | `t.exact({required: {a :A}, optional: {b: B}})`|
-|                           | `{\| a: A, b: B \|}`                       | `t.exactAll({a: A, b: B})` |
-|                           | `{\| a?: A, b?: B \|}`                    | `t.exactShape({a: A, b: B}` |
-| inexact types             | `{ a: A, b: b }`                          | `t.inexact({required: {a: A}, optional: {b: B}})` |
-|                           | `{ a: A, b: B }`                          | `t.inexactAll({a: A, b: B})` |
-|                           | `{ a?: A, b?: B }`                        | `t.inexactShape({a: A, b: B})` |
+| refinement                | `A`, `Opaque: A`                        | `t.refinement(A, predicate)` or<br>`t.opaqueRefine<A, Opaque>(A, predicate)`|
+| exact types               | `{\| a: A, b?: B \|}`                   | `t.exact({required: {a :A}, optional: {b: B}})`       |
+|                           | `{\| a: A, b: B \|}`                    | `t.exactAll({a: A, b: B})`                            |
+|                           | `{\| a?: A, b?: B \|}`                  | `t.exactShape({a: A, b: B}`                           |
+| inexact types             | `{ a: A, b: b }`                        | `t.inexact({required: {a: A}, optional: {b: B}})`     |
+|                           | `{ a: A, b: B }`                        | `t.inexactAll({a: A, b: B})`                          |
+|                           | `{ a?: A, b?: B }`                      | `t.inexactShape({a: A, b: B})`                        |
 
 *Note*: Assume `A` and `B` are instances of the `t.Type` class
 

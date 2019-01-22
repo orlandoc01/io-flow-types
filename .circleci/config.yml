@@ -8,7 +8,7 @@ jobs:
   test:
     <<: *docker_image
     environment:
-      BATCH_SIZE: 2
+      BATCH_SIZE: 1
     steps:
       - checkout
       # Download and cache dependencies
