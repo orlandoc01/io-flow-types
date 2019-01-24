@@ -2,7 +2,7 @@
 import type { Props, Obj } from './base.js';
 import { PropsType, empty, getNameFromProps } from './base.js';
 import { InexactPropsType } from './inexact.js';
-import type { MixedFlowType, Is, Validate, Context, Encode } from '../index.js';
+import type { MixedFlowType, Is, Validate, Context, Encode, GetType, GetOutput } from '../index.js';
 
 type ExactObj<Required: Props, Optional: Props> = $Rest<
   {| ...$Exact<Required>, ...$Exact<Optional> |},
@@ -42,8 +42,8 @@ export function exact<Required: Props, Optional: Props>(
   name?: string
 ): ExactPropsType<
   {| ...$Exact<Required>, ...$Exact<Optional> |},
-  $ObjMap<ExactObj<Required, Optional>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_A'>>,
-  $ObjMap<ExactObj<Required, Optional>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_O'>>,
+  $ObjMap<ExactObj<Required, Optional>, <V: MixedFlowType>(v: V) => $Call<GetType, V>>,
+  $ObjMap<ExactObj<Required, Optional>, <V: MixedFlowType>(v: V) => $Call<GetOutput, V>>,
   mixed
 > {
   const required: Required = props.required || empty<Required>();
@@ -59,8 +59,8 @@ export function exactAll<Required: Props>(
   name: string = getNameFromProps(required, Object.keys(required), true)
 ): ExactPropsType<
   {| ...$Exact<Required> |},
-  $ObjMap<ExactObj<Required, {||}>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_A'>>,
-  $ObjMap<ExactObj<Required, {||}>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_O'>>,
+  $ObjMap<ExactObj<Required, {||}>, <V: MixedFlowType>(v: V) => $Call<GetType, V>>,
+  $ObjMap<ExactObj<Required, {||}>, <V: MixedFlowType>(v: V) => $Call<GetOutput, V>>,
   mixed
 > {
   return exact<Required, {||}>({ required }, name);
@@ -71,8 +71,8 @@ export function exactShape<Optional: Props>(
   name: string = getNameFromProps(optional, [], true)
 ): ExactPropsType<
   {| ...$Exact<Optional> |},
-  $ObjMap<ExactObj<{||}, Optional>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_A'>>,
-  $ObjMap<ExactObj<{||}, Optional>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_O'>>,
+  $ObjMap<ExactObj<{||}, Optional>, <V: MixedFlowType>(v: V) => $Call<GetType, V>>,
+  $ObjMap<ExactObj<{||}, Optional>, <V: MixedFlowType>(v: V) => $Call<GetOutput, V>>,
   mixed
 > {
   return exact<{||}, Optional>({ optional }, name);

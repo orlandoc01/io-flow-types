@@ -4,12 +4,12 @@
 //
 import { isLeft } from '../fp';
 import { Type, success, failures, identity, arrayType, isArray, appendContext } from './index.js';
-import type { MixedFlowType, TypeOf, OutputOf, Errors } from './index.js';
+import type { MixedFlowType, TypeOf, OutputOf, Errors, GetType, GetOutput } from './index.js';
 
 export function array<RT: MixedFlowType>(
   type: RT,
   name: string = `Array<${type.name}>`
-): Type<Array<$PropertyType<RT, '_A'>>, Array<$PropertyType<RT, '_O'>>, mixed> {
+): Type<Array<$Call<GetType, RT>>, Array<$Call<GetOutput, RT>>, mixed> {
   const is = m => isArray(m) && m.every(type.is);
   const encode = type.encode === identity ? identity : a => a.map(type.encode);
   return new Type(name, is, validate, encode);
@@ -42,7 +42,7 @@ export function array<RT: MixedFlowType>(
 export function readonlyArray<RT: MixedFlowType>(
   type: RT,
   name: string = `$ReadOnlyArray<${type.name}>`
-): Type<$ReadOnlyArray<$PropertyType<RT, '_A'>>, $ReadOnlyArray<$PropertyType<RT, '_O'>>, mixed> {
+): Type<$ReadOnlyArray<$Call<GetType, RT>>, $ReadOnlyArray<$Call<GetOutput, RT>>, mixed> {
   const arrayType = array<RT>(type);
   const is: mixed => boolean = arrayType.is;
   const isNotProduction = process.env.NODE_ENV !== 'production';

@@ -14,7 +14,7 @@ import {
   appendContext,
   arrayType
 } from './index.js';
-import type { MixedFlowType, Errors } from './index.js';
+import type { MixedFlowType, Errors, GetType, GetOutput } from './index.js';
 
 export interface TupleFunc {
   <A: MixedFlowType, B: MixedFlowType, C: MixedFlowType, D: MixedFlowType, E: MixedFlowType>(
@@ -22,18 +22,18 @@ export interface TupleFunc {
     name?: string
   ): Type<
     [
-      $PropertyType<A, '_A'>,
-      $PropertyType<B, '_A'>,
-      $PropertyType<C, '_A'>,
-      $PropertyType<D, '_A'>,
-      $PropertyType<E, '_A'>
+      $Call<GetType, A>,
+      $Call<GetType, B>,
+      $Call<GetType, C>,
+      $Call<GetType, D>,
+      $Call<GetType, E>
     ],
     [
-      $PropertyType<A, '_O'>,
-      $PropertyType<B, '_O'>,
-      $PropertyType<C, '_O'>,
-      $PropertyType<D, '_O'>,
-      $PropertyType<E, '_O'>
+      $Call<GetOutput, A>,
+      $Call<GetOutput, B>,
+      $Call<GetOutput, C>,
+      $Call<GetOutput, D>,
+      $Call<GetOutput, E>
     ],
     mixed
   >;
@@ -41,22 +41,22 @@ export interface TupleFunc {
     types: [A, B, C, D],
     name?: string
   ): Type<
-    [$PropertyType<A, '_A'>, $PropertyType<B, '_A'>, $PropertyType<C, '_A'>, $PropertyType<D, '_A'>],
-    [$PropertyType<A, '_O'>, $PropertyType<B, '_O'>, $PropertyType<C, '_O'>, $PropertyType<D, '_O'>],
+    [$Call<GetType, A>, $Call<GetType, B>, $Call<GetType, C>, $Call<GetType, D>],
+    [$Call<GetOutput, A>, $Call<GetOutput, B>, $Call<GetOutput, C>, $Call<GetOutput, D>],
     mixed
   >;
   <A: MixedFlowType, B: MixedFlowType, C: MixedFlowType>(
     types: [A, B, C],
     name?: string
   ): Type<
-    [$PropertyType<A, '_A'>, $PropertyType<B, '_A'>, $PropertyType<C, '_A'>],
-    [$PropertyType<A, '_O'>, $PropertyType<B, '_O'>, $PropertyType<C, '_O'>],
+    [$Call<GetType, A>, $Call<GetType, B>, $Call<GetType, C>],
+    [$Call<GetOutput, A>, $Call<GetOutput, B>, $Call<GetOutput, C>],
     mixed
   >;
   <A: MixedFlowType, B: MixedFlowType>(
     types: [A, B],
     name?: string
-  ): Type<[$PropertyType<A, '_A'>, $PropertyType<B, '_A'>], [$PropertyType<A, '_O'>, $PropertyType<B, '_O'>], mixed>;
+  ): Type<[$Call<GetType, A>, $Call<GetType, B>], [$Call<GetOutput, A>, $Call<GetOutput, B>], mixed>;
 }
 function _tuple<RTS: Array<MixedFlowType>>(types: RTS, name: string = `[${types.map(type => type.name).join(', ')}]`) {
   const len = types.length;

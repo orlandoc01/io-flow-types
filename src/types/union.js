@@ -15,7 +15,7 @@ import {
   isObject,
   values
 } from './index.js';
-import type { MixedFlowType, TypeOf, OutputOf, Errors } from './index.js';
+import type { MixedFlowType, TypeOf, OutputOf, Errors, GetType, GetOutput } from './index.js';
 import type { Props } from './props';
 
 type MappedUnion = { [key: string]: MixedFlowType };
@@ -26,8 +26,8 @@ export function unionMap<P: MappedUnion>(
     .map(type => type.name)
     .join(' | ')})`
 ): Type<
-  $Values<$ObjMap<P, <V: MixedFlowType>(v: V) => $PropertyType<V, '_A'>>>,
-  $Values<$ObjMap<P, <V: MixedFlowType>(v: V) => $PropertyType<V, '_O'>>>,
+  $Values<$ObjMap<P, <V: MixedFlowType>(v: V) => $Call<GetType, V>>>,
+  $Values<$ObjMap<P, <V: MixedFlowType>(v: V) => $Call<GetOutput, V>>>,
   mixed
 > {
   const transform: mixed => string = typeof toKey === 'string' ? makeToKey(toKey) : toKey;
@@ -61,45 +61,45 @@ interface UnionFunc {
     types: [A, B, C, D, E],
     name?: string
   ): Type<
-    | $PropertyType<A, '_A'>
-    | $PropertyType<B, '_A'>
-    | $PropertyType<C, '_A'>
-    | $PropertyType<D, '_A'>
-    | $PropertyType<E, '_A'>,
-    | $PropertyType<A, '_O'>
-    | $PropertyType<B, '_O'>
-    | $PropertyType<C, '_O'>
-    | $PropertyType<D, '_O'>
-    | $PropertyType<E, '_O'>,
+    | $Call<GetType, A>
+    | $Call<GetType, B>
+    | $Call<GetType, C>
+    | $Call<GetType, D>
+    | $Call<GetType, E>,
+    | $Call<GetOutput, A>
+    | $Call<GetOutput, B>
+    | $Call<GetOutput, C>
+    | $Call<GetOutput, D>
+    | $Call<GetOutput, E>,
     mixed
   >;
   <A: MixedFlowType, B: MixedFlowType, C: MixedFlowType, D: MixedFlowType>(
     types: [A, B, C, D],
     name?: string
   ): Type<
-    $PropertyType<A, '_A'> | $PropertyType<B, '_A'> | $PropertyType<C, '_A'> | $PropertyType<D, '_A'>,
-    $PropertyType<A, '_O'> | $PropertyType<B, '_O'> | $PropertyType<C, '_O'> | $PropertyType<D, '_O'>,
+    $Call<GetType, A> | $Call<GetType, B> | $Call<GetType, C> | $Call<GetType, D>,
+    $Call<GetOutput, A> | $Call<GetOutput, B> | $Call<GetOutput, C> | $Call<GetOutput, D>,
     mixed
   >;
   <A: MixedFlowType, B: MixedFlowType, C: MixedFlowType>(
     types: [A, B, C],
     name?: string
   ): Type<
-    $PropertyType<A, '_A'> | $PropertyType<B, '_A'> | $PropertyType<C, '_A'>,
-    $PropertyType<A, '_O'> | $PropertyType<B, '_O'> | $PropertyType<C, '_O'>,
+    $Call<GetType, A> | $Call<GetType, B> | $Call<GetType, C>,
+    $Call<GetOutput, A> | $Call<GetOutput, B> | $Call<GetOutput, C>,
     mixed
   >;
   <A: MixedFlowType, B: MixedFlowType>(
     types: [A, B],
     name?: string
-  ): Type<$PropertyType<A, '_A'> | $PropertyType<B, '_A'>, $PropertyType<A, '_O'> | $PropertyType<B, '_O'>, mixed>;
+  ): Type<$Call<GetType, A> | $Call<GetType, B>, $Call<GetOutput, A> | $Call<GetOutput, B>, mixed>;
 }
 
 type MixedFlowTypeFlowTypeTypeArray = $ReadOnlyArray<MixedFlowType>;
 export function _union<Arr: MixedFlowTypeFlowTypeTypeArray>(
   types: Arr,
   name: string = `(${types.map(type => type.name).join(' | ')})`
-): Type<$PropertyType<$ElementType<Arr, number>, '_A'>, $PropertyType<$ElementType<Arr, number>, '_O'>, mixed> {
+): Type<$Call<GetType, $ElementType<Arr, number>>, $Call<GetOutput, $ElementType<Arr, number>>, mixed> {
   const len = types.length;
   const is = m => types.some(type => type.is(m));
   return new Type(name, is, validate, makeEncode());

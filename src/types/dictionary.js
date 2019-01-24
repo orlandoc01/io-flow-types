@@ -4,7 +4,7 @@
 //
 import { isLeft } from '../fp';
 import { Type, Any, isDictionary, success, failures, identity, appendContext, Dictionary } from './index.js';
-import type { MixedFlowType, AnyFlowType, TypeOf, OutputOf, Errors } from './index.js';
+import type { MixedFlowType, AnyFlowType, TypeOf, OutputOf, Errors, GetType, GetOutput } from './index.js';
 
 export type TypeOfDictionary<D: AnyFlowType, C: AnyFlowType> = { [K: TypeOf<D>]: TypeOf<C> };
 
@@ -15,8 +15,8 @@ export const dictionary = <D: MixedFlowType, C: MixedFlowType>(
   codomain: C,
   name: string = `{ [K: ${domain.name}]: ${codomain.name} }`
 ): Type<
-  { [K: $PropertyType<D, '_A'>]: $PropertyType<C, '_A'> },
-  { [K: $PropertyType<D, '_O'>]: $PropertyType<C, '_O'> },
+  { [K: $Call<GetType, D>]: $Call<GetType, C> },
+  { [K: $Call<GetOutput, D>]: $Call<GetOutput, C> },
   mixed
 > => {
   const isIndexSignatureRequired = codomain !== Any;

@@ -4,45 +4,45 @@
 //
 import { isLeft } from '../fp';
 import { Type, success, failures, identity, useIdentity } from './index.js';
-import type { MixedFlowType, TypeOf, OutputOf, Errors } from './index.js';
+import type { MixedFlowType, TypeOf, OutputOf, Errors, GetType, GetOutput } from './index.js';
 
 interface IntersectionFunc {
   <A: MixedFlowType, B: MixedFlowType, C: MixedFlowType, D: MixedFlowType, E: MixedFlowType>(
     types: [A, B, C, D, E],
     name?: string
   ): Type<
-    $PropertyType<A, '_A'> &
-      $PropertyType<B, '_A'> &
-      $PropertyType<C, '_A'> &
-      $PropertyType<D, '_A'> &
-      $PropertyType<E, '_A'>,
-    $PropertyType<A, '_O'> &
-      $PropertyType<B, '_O'> &
-      $PropertyType<C, '_O'> &
-      $PropertyType<D, '_O'> &
-      $PropertyType<E, '_O'>,
+    $Call<GetType, A> &
+      $Call<GetType, B> &
+      $Call<GetType, C> &
+      $Call<GetType, D> &
+      $Call<GetType, E>,
+    $Call<GetOutput, A> &
+      $Call<GetOutput, B> &
+      $Call<GetOutput, C> &
+      $Call<GetOutput, D> &
+      $Call<GetOutput, E>,
     mixed
   >;
   <A: MixedFlowType, B: MixedFlowType, C: MixedFlowType, D: MixedFlowType>(
     types: [A, B, C, D],
     name?: string
   ): Type<
-    $PropertyType<A, '_A'> & $PropertyType<B, '_A'> & $PropertyType<C, '_A'> & $PropertyType<D, '_A'>,
-    $PropertyType<A, '_O'> & $PropertyType<B, '_O'> & $PropertyType<C, '_O'> & $PropertyType<D, '_O'>,
+    $Call<GetType, A> & $Call<GetType, B> & $Call<GetType, C> & $Call<GetType, D>,
+    $Call<GetOutput, A> & $Call<GetOutput, B> & $Call<GetOutput, C> & $Call<GetOutput, D>,
     mixed
   >;
   <A: MixedFlowType, B: MixedFlowType, C: MixedFlowType>(
     types: [A, B, C],
     name?: string
   ): Type<
-    $PropertyType<A, '_A'> & $PropertyType<B, '_A'> & $PropertyType<C, '_A'>,
-    $PropertyType<A, '_O'> & $PropertyType<B, '_O'> & $PropertyType<C, '_O'>,
+    $Call<GetType, A> & $Call<GetType, B> & $Call<GetType, C>,
+    $Call<GetOutput, A> & $Call<GetOutput, B> & $Call<GetOutput, C>,
     mixed
   >;
   <A: MixedFlowType, B: MixedFlowType>(
     types: [A, B],
     name?: string
-  ): Type<$PropertyType<A, '_A'> & $PropertyType<B, '_A'>, $PropertyType<A, '_O'> & $PropertyType<B, '_O'>, mixed>;
+  ): Type<$Call<GetType, A> & $Call<GetType, B>, $Call<GetOutput, A> & $Call<GetOutput, B>, mixed>;
 }
 
 export const intersection: IntersectionFunc = (_intersection: any);

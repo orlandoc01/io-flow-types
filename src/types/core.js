@@ -21,9 +21,15 @@ export type Decode<-I, A> = (i: I) => Validation<A>;
 export type Encode<A, +O> = (a: A) => O;
 export type AnyFlowType = Type<any, any, any>;
 export type MixedFlowType = Type<any, any, mixed>;
-export type TypeOf<RT: AnyFlowType> = $PropertyType<RT, '_A'>;
-export type InputOf<RT: AnyFlowType> = $PropertyType<RT, '_I'>;
-export type OutputOf<RT: AnyFlowType> = $PropertyType<RT, '_O'>;
+
+export type GetType = <A>(Type<A, any, any>) => A;
+export type TypeOf<RT: AnyFlowType> = $Call<GetType, RT>;
+
+export type GetOutput = <O>(Type<any, O, any>) => O;
+export type OutputOf<RT: AnyFlowType> = $Call<GetOutput, RT>;
+
+export type GetInput = <I>(Type<any, any, I>) => I;
+export type InputOf<RT: AnyFlowType> = $Call<GetInput, RT>;
 
 export interface Decoder<-I, A> {
   +name: string;
@@ -36,9 +42,6 @@ export interface Encoder<A, +O> {
 }
 
 export class Type<A, +O = A, I = mixed> implements Decoder<I, A>, Encoder<A, O> {
-  +_A: A;
-  +_O: O;
-  +_I: I;
   +name: string;
   +is: Is<A>;
   +validate: Validate<I, A>;

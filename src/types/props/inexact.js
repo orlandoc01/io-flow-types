@@ -2,7 +2,7 @@
 import type { Props, Obj } from './base.js';
 import { PropsType, empty, getNameFromProps } from './base.js';
 import { ExactPropsType } from './exact.js';
-import type { MixedFlowType, Is, Validate, Context, Encode } from '../index.js';
+import type { MixedFlowType, Is, Validate, Context, Encode, GetType, GetOutput } from '../index.js';
 
 type Inexact<Required: Props, Optional: Props> = {
   ...$Rest<{| ...$Exact<Required>, ...$Exact<Optional> |}, $Rest<Optional, {}>>
@@ -41,8 +41,8 @@ export function inexact<Required: Props, Optional: Props>(
   name?: string
 ): InexactPropsType<
   {| ...$Exact<Required>, ...$Exact<Optional> |},
-  $ObjMap<Inexact<Required, Optional>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_A'>>,
-  $ObjMap<Inexact<Required, Optional>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_O'>>,
+  $ObjMap<Inexact<Required, Optional>, <V: MixedFlowType>(v: V) => $Call<GetType, V>>,
+  $ObjMap<Inexact<Required, Optional>, <V: MixedFlowType>(v: V) => $Call<GetOutput, V>>,
   mixed
 > {
   const required: Required = props.required || empty<Required>();
@@ -58,8 +58,8 @@ export function inexactAll<Required: Props>(
   name: string = getNameFromProps(required, Object.keys(required), false)
 ): InexactPropsType<
   {| ...$Exact<Required> |},
-  $ObjMap<Inexact<Required, {||}>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_A'>>,
-  $ObjMap<Inexact<Required, {||}>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_O'>>,
+  $ObjMap<Inexact<Required, {||}>, <V: MixedFlowType>(v: V) => $Call<GetType, V>>,
+  $ObjMap<Inexact<Required, {||}>, <V: MixedFlowType>(v: V) => $Call<GetOutput, V>>,
   mixed
 > {
   return inexact<Required, {||}>({ required }, name);
@@ -70,8 +70,8 @@ export function inexactShape<Optional: Props>(
   name: string = getNameFromProps(optional, [], false)
 ): InexactPropsType<
   {| ...$Exact<Optional> |},
-  $ObjMap<Inexact<{||}, Optional>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_A'>>,
-  $ObjMap<Inexact<{||}, Optional>, <V: MixedFlowType>(v: V) => $PropertyType<V, '_O'>>,
+  $ObjMap<Inexact<{||}, Optional>, <V: MixedFlowType>(v: V) => $Call<GetType, V>>,
+  $ObjMap<Inexact<{||}, Optional>, <V: MixedFlowType>(v: V) => $Call<GetOutput, V>>,
   mixed
 > {
   return inexact<{||}, Optional>({ optional }, name);
