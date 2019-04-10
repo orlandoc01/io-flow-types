@@ -1,13 +1,13 @@
 //@flow
 import { isLeft } from '../fp';
 import { Type, success, failure, getFunctionName, Number } from './index.js';
-import type { Predicate, AnyFlowType } from './index.js';
+import type { Predicate, AnyFlowType, GetType, GetOutput, GetInput } from './index.js';
 
 export function refinement<RT: AnyFlowType>(
   type: RT,
-  predicate: Predicate<$PropertyType<RT, '_A'>>,
+  predicate: Predicate<$Call<GetType, RT>>,
   name: string = `(${type.name} | ${getFunctionName(predicate)})`
-): Type<$PropertyType<RT, '_A'>, $PropertyType<RT, '_O'>, $PropertyType<RT, '_I'>> {
+): Type<$Call<GetType, RT>, $Call<GetOutput, RT>, $Call<GetInput, RT>> {
   return new Type(
     name,
     m => type.is(m) && predicate(m),
@@ -22,11 +22,11 @@ export function refinement<RT: AnyFlowType>(
 }
 
 /** Special refinement that allows users to supply an Opaque Type as the A parameter of the Type class */
-export function opaqueRefine<RT: AnyFlowType, Opaque: $PropertyType<RT, '_A'>>(
+export function opaqueRefine<RT: AnyFlowType, Opaque: $Call<GetType, RT>>(
   type: RT,
-  predicate: Predicate<$PropertyType<RT, '_A'>>,
+  predicate: Predicate<$Call<GetType, RT>>,
   name?: string
-): Type<Opaque, $PropertyType<RT, '_O'>, $PropertyType<RT, '_I'>> {
+): Type<Opaque, $Call<GetOutput, RT>, $Call<GetInput, RT>> {
   const refined = refinement(type, predicate, name);
   return refined;
 }

@@ -1,4 +1,3 @@
-//@flow
 //
 // unions
 //
@@ -15,7 +14,7 @@ import {
   isObject,
   values
 } from './index.js';
-import type { MixedFlowType, TypeOf, OutputOf, Errors } from './index.js';
+import type { MixedFlowType, TypeOf, OutputOf, Errors, GetType, GetOutput } from './index.js';
 import type { Props } from './props';
 
 type MappedUnion = { [key: string]: MixedFlowType };
@@ -26,8 +25,8 @@ export function unionMap<P: MappedUnion>(
     .map(type => type.name)
     .join(' | ')})`
 ): Type<
-  $Values<$ObjMap<P, <V: MixedFlowType>(v: V) => $PropertyType<V, '_A'>>>,
-  $Values<$ObjMap<P, <V: MixedFlowType>(v: V) => $PropertyType<V, '_O'>>>,
+  $Values<$ObjMap<P, <V: MixedFlowType>(v: V) => $Call<GetType, V>>>,
+  $Values<$ObjMap<P, <V: MixedFlowType>(v: V) => $Call<GetOutput, V>>>,
   mixed
 > {
   const transform: mixed => string = typeof toKey === 'string' ? makeToKey(toKey) : toKey;
