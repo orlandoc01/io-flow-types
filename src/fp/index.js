@@ -107,5 +107,7 @@ function toString(x: mixed): string {
   if (typeof x.toString === 'function' && x.toString !== Object.prototype.toString) {
     return (x.toString: any)();
   }
-  return JSON.stringify(x, null);
+  //Based on above checks, this should always return a string
+  const result: string = (JSON.stringify(x, null): any);
+  return result;
 }

@@ -110,24 +110,10 @@ async function getOrderedFlowBinVersions(numberOfReleases: number = 20): Promise
 
     const flowBins = apiPayload.data
       .filter(rel => {
-        if (rel.tag_name === 'v0.67.0') {
-          printSkipMessage(rel.tag_name, 'https://github.com/facebook/flow/issues/5922');
+        if (rel.tag_name === 'v0.95.0') {
+          printSkipMessage(rel.tag_name, 'JSON.stringify issue present that was later patched');
           return false;
-        } else if (rel.tag_name === 'v0.63.0' || rel.tag_name === 'v0.70.0') {
-          printSkipMessage(rel.tag_name, 'https://github.com/flowtype/flow-typed/issues/2422');
-          return false;
-        } else if (semver.lt(rel.tag_name, '0.53.0')) {
-          console.log('flow-typed only supports flow 0.53.0 and newer');
-          return false;
-        } else if (
-          IS_WINDOWS &&
-          (semver.eq(rel.tag_name, '0.57.0') ||
-            semver.eq(rel.tag_name, '0.57.1') ||
-            semver.eq(rel.tag_name, '0.57.2'))
-        ) {
-          // Because flow 0.57 was broken before 0.57.3 on the Windows platform, we also skip those versions when running on windows.
-          return false;
-        }
+        } 
         return semver.satisfies(rel.tag_name, peerDependencies['flow-bin']);
       })
       .map(rel => {
