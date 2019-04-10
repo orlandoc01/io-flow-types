@@ -1,6 +1,6 @@
 {
   "name": "io-flow-types",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Flow compatible runtime type system for IO validation",
   "files": [
     "lib"
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/orlandoc01/io-flow-types",
   "peerDependencies": {
-    "flow-bin": ">= 0.81"
+    "flow-bin": ">=0.81 <0.95"
   },
   "dependencies": {},
   "devDependencies": {
