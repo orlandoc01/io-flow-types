@@ -62,6 +62,15 @@ export class Type<A, +O = A, I = mixed> implements Decoder<I, A>, Encoder<A, O> 
   decode(i: I): Validation<A> {
     return this.validate(i, getDefaultContext(this));
   }
+  /** a version of `validate` with a default context for Promises*/
+  decodeAsync(i: I): Promise<A> {
+    return this.validateAsync(i, getDefaultContext(this));
+  }
+  /** a version of `validate` for Promises*/
+  validateAsync(i: I, context: Context): Promise<A> {
+    const result = this.validate(i, context);
+    return result.fold(err => Promise.reject(err), v => Promise.resolve(v));
+  }
   pipe<B>(ab: Type<B, A, A>, name?: string): Type<B, O, I> {
     const custEncode = b => this.encode(ab.encode(b));
     const encode = this.encode === identity && ab.encode === identity ? (identity: any) : custEncode;

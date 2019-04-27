@@ -2,6 +2,7 @@
 import * as assert from 'assert';
 import * as t from '../src/index';
 import { assertSuccess, assertFailure } from './helpers';
+import { failure } from '../src/PathReporter';
 
 const BAA = new t.Type<number, string, string>(
   'BAA',
@@ -20,6 +21,24 @@ const BAI = t.String.pipe(
 );
 
 describe('Type', () => {
+  describe('decodeAsync', () => {
+    it('should resolve correct values', () => {
+      const str: mixed = '1';
+      return Promise.resolve(str)
+        .then(BAI.decodeAsync.bind(BAI))
+        .then(v => assert.strictEqual(v, 1));
+    });
+
+    it('should reject incorrect value', () => {
+      const str: mixed = 1;
+      return Promise.resolve(str)
+        .then(BAI.decodeAsync.bind(BAI))
+        .catch(err => {
+          assert.deepEqual(failure(err), ['Invalid value 1 supplied to : T']);
+        });
+    });
+  });
+
   describe('pipe', () => {
     it('should assign a default name', () => {
       const AOI = t.String;
