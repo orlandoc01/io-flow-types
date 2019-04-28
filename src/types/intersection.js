@@ -3,8 +3,8 @@
 // intersections
 //
 import { isLeft } from '../fp';
-import { Type, success, failures, identity, useIdentity } from './index.js';
-import type { MixedFlowType, TypeOf, OutputOf, Errors } from './index.js';
+import { Type, success, failures, identity, useIdentity, AggregateError } from './index.js';
+import type { MixedFlowType, TypeOf, OutputOf } from './index.js';
 
 interface IntersectionFunc {
   <A: MixedFlowType, B: MixedFlowType, C: MixedFlowType, D: MixedFlowType, E: MixedFlowType>(
@@ -55,7 +55,7 @@ function _intersection<RTS: $ReadOnlyArray<MixedFlowType>>(
     name,
     m => types.every(type => type.is(m)),
     (m, c) => {
-      const errors: Errors = [];
+      const errors = new AggregateError();
       let a = m;
       types.forEach(type => {
         const validation = type.validate(a, c);

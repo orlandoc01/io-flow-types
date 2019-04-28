@@ -91,7 +91,11 @@ const makeRight = <L, A>(v: A): Either<L, A> => new Right(v);
 
 export { makeLeft as Left, makeRight as Right };
 
-function toString(x: mixed): string {
+
+export const getFunctionName = (f: Function | { displayName: string } | { name: string }): string =>
+  `<function ${(f: any).displayName || (f: any).name || (f: any).length}>`;
+
+export function toString(x: mixed): string {
   if (typeof x === 'string') {
     return JSON.stringify(x);
   }
@@ -103,6 +107,9 @@ function toString(x: mixed): string {
   }
   if (x == null) {
     return String(x);
+  }
+  if (typeof x === 'function') {
+    return getFunctionName(x);
   }
   if (typeof x.toString === 'function' && x.toString !== Object.prototype.toString) {
     return (x.toString: any)();

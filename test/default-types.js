@@ -160,10 +160,10 @@ describe('never', () => {
     assertFailure(t.Never.decode('foo'), ['Invalid value "foo" supplied to : never']);
     assertFailure(t.Never.decode(1), ['Invalid value 1 supplied to : never']);
     assertFailure(t.Never.decode(true), ['Invalid value true supplied to : never']);
-    assertFailure(t.Never.decode(t.identity), ['Invalid value identity supplied to : never']);
+    assertFailure(t.Never.decode(t.identity), ['Invalid value <function identity> supplied to : never']);
     assertFailure(t.Never.decode({}), ['Invalid value {} supplied to : never']);
     assertFailure(t.Never.decode([]), ['Invalid value [] supplied to : never']);
-    assertFailure(t.Never.decode(/a/), ['Invalid value {} supplied to : never']);
+    assertFailure(t.Never.decode(/a/), ['Invalid value /a/ supplied to : never']);
   });
 
   it('should not accept any value', () => {

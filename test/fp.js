@@ -74,6 +74,6 @@ describe('Either', () => {
     assert.strictEqual(left(new Date(0)).inspect(), "left(new Date('1970-01-01T00:00:00.000Z'))");
     assert.strictEqual(left([1, 2, 3]).inspect(), 'left([1, 2, 3])');
     assert.strictEqual(left(null).inspect(), 'left(null)');
-    assert.strictEqual(left(() => {}).inspect(), 'left(function () {})');
+    assert.strictEqual(left(() => {}).inspect(), 'left(<function 0>)');
   });
 });

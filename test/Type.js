@@ -34,7 +34,7 @@ describe('Type', () => {
       return Promise.resolve(str)
         .then(BAI.decodeAsync.bind(BAI))
         .catch(err => {
-          assert.deepEqual(failure(err), ['Invalid value 1 supplied to : T']);
+          assert.deepEqual(err.messages(), ['Invalid value 1 supplied to : T']);
         });
     });
   });
@@ -68,11 +68,5 @@ describe('Type', () => {
     it('should return an encoder', () => {
       assert.strictEqual(BAI.asEncoder().encode(2), '2');
     });
-  });
-});
-
-describe('getContextEntry', () => {
-  it('should return a ContextEntry', () => {
-    assert.deepEqual(t.getContextEntry('key', t.String), { key: 'key', type: t.String });
   });
 });
