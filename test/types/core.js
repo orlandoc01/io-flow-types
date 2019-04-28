@@ -1,8 +1,8 @@
 //@flow
 import * as assert from 'assert';
-import * as t from '../src/index';
-import { assertSuccess, assertFailure } from './helpers';
-import { failure } from '../src/PathReporter';
+import * as t from '../../src/index';
+import { assertSuccess, assertFailure } from '../helpers';
+import { failure } from '../../src/PathReporter';
 
 const BAA = new t.Type<number, string, string>(
   'BAA',

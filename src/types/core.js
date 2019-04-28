@@ -10,8 +10,8 @@ export type ContextEntry = {
 };
 export type Context = $ReadOnlyArray<ContextEntry>;
 export class ValidationError extends Error {
-  +value: mixed
-  +context: Context
+  +value: mixed;
+  +context: Context;
   constructor(value: mixed, context: Context, message?: string) {
     super();
     this.value = value;
@@ -150,7 +150,7 @@ export function mapValues<P: { +[key: string]: mixed }, F: ($Values<P>, $Keys<P>
 }
 
 function getContextPath(context: Context): string {
-  return context.map(({ key, type }) => `${key}: ${type.name}`).join('/')
+  return context.map(({ key, type }) => `${key}: ${type.name}`).join('/');
 }
 
 function workaroundExtendBuiltins(context, subclass) {

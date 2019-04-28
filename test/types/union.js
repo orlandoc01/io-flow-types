@@ -1,6 +1,6 @@
 //@flow
 import * as assert from 'assert';
-import * as t from '../src/index';
+import * as t from '../../src/index';
 import {
   NumberOrString,
   DateFromNumOrStr2,
@@ -9,7 +9,7 @@ import {
   assertStrictEqual,
   DateFromNumber,
   DateFromNumOrStr
-} from './helpers';
+} from '../helpers';
 
 describe('union', () => {
   it('should properly typecheck values', () => {

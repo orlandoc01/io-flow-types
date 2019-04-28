@@ -91,7 +91,6 @@ const makeRight = <L, A>(v: A): Either<L, A> => new Right(v);
 
 export { makeLeft as Left, makeRight as Right };
 
-
 export const getFunctionName = (f: Function | { displayName: string } | { name: string }): string =>
   `<function ${(f: any).displayName || (f: any).name || (f: any).length}>`;
 

@@ -1,7 +1,7 @@
 //@flow
-import * as t from '../src/index';
-import type { TypeOf } from '../src/index';
-import { assertSuccess, assertFailure, assertStrictEqual, DateFromNumber } from './helpers';
+import * as t from '../../../src/index';
+import type { TypeOf } from '../../../src/index';
+import { assertSuccess, assertFailure, assertStrictEqual, DateFromNumber } from '../../helpers';
 import * as assert from 'assert';
 
 describe('exact', () => {

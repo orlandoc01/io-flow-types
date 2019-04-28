@@ -1,7 +1,7 @@
 //@flow
 import * as assert from 'assert';
-import * as t from '../src/index';
-import { assertSuccess, assertFailure } from './helpers';
+import * as t from '../../src/index';
+import { assertSuccess, assertFailure } from '../helpers';
 
 describe('Dictionary', () => {
   it('should properly typecheck values', () => {

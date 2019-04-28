@@ -1,6 +1,6 @@
 //@flow
 import * as assert from 'assert';
-import { isLeft, isRight, Left as left, Right as right } from '../src/index.js';
+import { isLeft, isRight, Left as left, Right as right } from '../../src/index.js';
 
 describe('Either', () => {
   it('fold', () => {

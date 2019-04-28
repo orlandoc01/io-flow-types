@@ -1,7 +1,7 @@
 //@flow
 import * as assert from 'assert';
-import * as t from '../src/index';
-import { assertSuccess, assertFailure, assertStrictEqual, DateFromNumber, IntegerFromString } from './helpers';
+import * as t from '../../src/index';
+import { assertSuccess, assertFailure, assertStrictEqual, DateFromNumber, IntegerFromString } from '../helpers';
 
 describe('refinement', () => {
   it('should return the same reference if validation succeeded', () => {
