@@ -26,7 +26,7 @@ export class AggregateError extends Array<ValidationError> {
     workaroundExtendBuiltins(this, AggregateError);
   }
   messages() {
-    return [...this.map(e => e.message)]
+    return [...this.map(e => e.message)];
   }
 }
 export type Validation<A> = Either<AggregateError, A>;
@@ -127,7 +127,7 @@ export const failure = <T>(value: mixed, context: Context): Validation<T> => {
   const errs = new AggregateError();
   errs.push(new ValidationError(value, context));
   return failures(errs);
-}
+};
 
 export const success = <T>(value: T): Validation<T> => new Right<AggregateError, T>(value);
 

@@ -16,7 +16,7 @@ import {
   values,
   AggregateError
 } from './index.js';
-import type { MixedFlowType, TypeOf, OutputOf} from './index.js';
+import type { MixedFlowType, TypeOf, OutputOf } from './index.js';
 import type { Props } from './props';
 
 type MappedUnion = { [key: string]: MixedFlowType };

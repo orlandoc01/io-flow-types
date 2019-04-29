@@ -3,7 +3,17 @@
 // dictionaries
 //
 import { isLeft } from '../fp';
-import { Type, Any, isDictionary, success, failures, identity, appendContext, Dictionary, AggregateError } from './index.js';
+import {
+  Type,
+  Any,
+  isDictionary,
+  success,
+  failures,
+  identity,
+  appendContext,
+  Dictionary,
+  AggregateError
+} from './index.js';
 import type { MixedFlowType, AnyFlowType, TypeOf, OutputOf } from './index.js';
 
 export type TypeOfDictionary<D: AnyFlowType, C: AnyFlowType> = { [K: TypeOf<D>]: TypeOf<C> };
