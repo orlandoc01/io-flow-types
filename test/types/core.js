@@ -2,7 +2,6 @@
 import * as assert from 'assert';
 import * as t from '../../src/index';
 import { assertSuccess, assertFailure } from '../helpers';
-import { failure } from '../../src/PathReporter';
 import Bluebird from 'bluebird';
 
 const BAA = new t.Type<number, string, string>(
