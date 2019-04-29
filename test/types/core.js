@@ -3,6 +3,7 @@ import * as assert from 'assert';
 import * as t from '../../src/index';
 import { assertSuccess, assertFailure } from '../helpers';
 import { failure } from '../../src/PathReporter';
+import Bluebird from 'bluebird';
 
 const BAA = new t.Type<number, string, string>(
   'BAA',
@@ -21,6 +22,21 @@ const BAI = t.String.pipe(
 );
 
 describe('Type', () => {
+  describe('decodeThrows', () => {
+    it('should throw and use the function name as error message', () => {
+      const isErr = err => {
+        assert.ok(err instanceof t.AggregateError);
+        assert.deepEqual(err.messages(), ['Invalid value null supplied to : number']);
+        return true;
+      };
+      assert.throws(() => t.Number.decodeThrows(null), isErr);
+    });
+
+    it('should return value whene there are no errors', () => {
+      assert.deepEqual(t.Number.decodeThrows(1), 1);
+    });
+  });
+
   describe('decodeAsync', () => {
     it('should resolve correct values', () => {
       const str: mixed = '1';
@@ -31,9 +47,11 @@ describe('Type', () => {
 
     it('should reject incorrect value', () => {
       const str: mixed = 1;
-      return Promise.resolve(str)
+      return Bluebird.resolve(str)
         .then(BAI.decodeAsync.bind(BAI))
+        .then(() => assert.ok(false, 'should not resolve'))
         .catch(err => {
+          assert.ok(err instanceof t.AggregateError);
           assert.deepEqual(err.messages(), ['Invalid value 1 supplied to : T']);
         });
     });
