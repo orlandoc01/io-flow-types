@@ -36,6 +36,8 @@ class Type<A, +O = A, I = mixed> {
   ) {}
   /** a version of `validate` with a default context */
   decode(i: I): Either<Errors, A>
+  /** a version of `validate` which will throw if invalid */
+  assert(i: I): A
 }
 ```
 
@@ -76,6 +78,12 @@ Person.decode(JSON.parse('{"name":"John","age":43}')) // => right({name: "John",
 
 // validation failed
 Person.decode(JSON.parse('{"name":"John"}')) // => left([...])
+
+//assertion succeeded
+Person.assert(JSON.parse('{"name":"John","age":43}')) // => {name: "John", age: 43}
+
+//assertion throws
+Person.assert(JSON.parse('{"name":"John"}')) // => throws
 ```
 # Implemented types / combinators
 
