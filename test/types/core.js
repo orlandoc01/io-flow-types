@@ -21,33 +21,33 @@ const BAI = t.String.pipe(
 );
 
 describe('Type', () => {
-  describe('decodeThrows', () => {
+  describe('assert', () => {
     it('should throw and use the function name as error message', () => {
       const isErr = err => {
         assert.ok(err instanceof t.AggregateError);
         assert.deepEqual(err.messages(), ['Invalid value null supplied to : number']);
         return true;
       };
-      assert.throws(() => t.Number.decodeThrows(null), isErr);
+      assert.throws(() => t.Number.assert(null), isErr);
     });
 
     it('should return value whene there are no errors', () => {
-      assert.deepEqual(t.Number.decodeThrows(1), 1);
+      assert.deepEqual(t.Number.assert(1), 1);
     });
   });
 
-  describe('decodeAsync', () => {
+  describe('getAssert', () => {
     it('should resolve correct values', () => {
       const str: mixed = '1';
       return Promise.resolve(str)
-        .then(BAI.decodeAsync.bind(BAI))
+        .then(BAI.getAssert())
         .then(v => assert.strictEqual(v, 1));
     });
 
     it('should reject incorrect value', () => {
       const str: mixed = 1;
       return Bluebird.resolve(str)
-        .then(BAI.decodeAsync.bind(BAI))
+        .then(BAI.getAssert())
         .then(() => assert.ok(false, 'should not resolve'))
         .catch(err => {
           assert.ok(err instanceof t.AggregateError);
