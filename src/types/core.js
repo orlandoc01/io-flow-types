@@ -12,6 +12,7 @@ export type Context = $ReadOnlyArray<ContextEntry>;
 export class ValidationError extends Error {
   +value: mixed;
   +context: Context;
+  message: string;
   constructor(value: mixed, context: Context, message?: string) {
     super();
     this.value = value;
@@ -21,11 +22,11 @@ export class ValidationError extends Error {
   }
 }
 export class AggregateError extends Array<ValidationError> {
-  constructor(...args: any[]) {
+  constructor(...args: ValidationError[]) {
     super(...args);
     workaroundExtendBuiltins(this, AggregateError);
   }
-  messages() {
+  messages(): Array<string> {
     return [...this.map(e => e.message)];
   }
 }
@@ -129,9 +130,9 @@ export const appendContext = (c: Context, key: string, type: Decoder<any, any>):
 
 export const failures = <T>(errors: AggregateError): Validation<T> => new Left(errors);
 
-export const failure = <T>(value: mixed, context: Context): Validation<T> => {
+export const failure = <T>(value: mixed, context: Context, message?: string): Validation<T> => {
   const errs = new AggregateError();
-  errs.push(new ValidationError(value, context));
+  errs.push(new ValidationError(value, context, message));
   return failures(errs);
 };
 
