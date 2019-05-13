@@ -3,7 +3,7 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-## 0.2.0
+## 0.2.1
 ### Added
 - Add new `ValidationError` class with default error message using `PathReporter` logic
 - Add new `AggregateError` class for error handling multiple `ValidationError` instances
