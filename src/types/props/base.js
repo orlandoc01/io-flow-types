@@ -11,14 +11,14 @@ import {
   appendContext,
   Dictionary,
   Any,
-  Never
+  Never,
+  AggregateError
 } from '../index.js';
 import type {
   MixedFlowType,
   AnyFlowType,
   TypeOf,
   OutputOf,
-  Errors,
   Validation,
   Is,
   Validate,
@@ -110,7 +110,7 @@ function makeValidate<I, A: Obj, P: Props>(
     const dictionaryValidation = Dictionary.validate(m, c);
     if (isLeft(dictionaryValidation)) return dictionaryValidation;
     const o = dictionaryValidation.value;
-    const errors: Errors = [];
+    const errors = new AggregateError();
     const requiredKeysLeft = new Set(required);
     const fallbackType = allowAdditional ? Any : Never;
     const a: A = (Object.keys(o).reduce(validateValue, o): any);

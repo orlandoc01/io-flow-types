@@ -1,7 +1,7 @@
 //@flow
 import * as assert from 'assert';
-import * as t from '../src/index';
-import { assertSuccess, assertFailure, DateFromNumber } from './helpers';
+import * as t from '../../../src/index';
+import { assertSuccess, assertFailure, DateFromNumber } from '../../helpers';
 
 describe('readonly', () => {
   it('should succeed validating a valid value', () => {

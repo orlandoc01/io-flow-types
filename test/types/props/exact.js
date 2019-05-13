@@ -1,7 +1,7 @@
 //@flow
-import * as t from '../src/index';
-import type { TypeOf } from '../src/index';
-import { assertSuccess, assertFailure, assertStrictEqual, DateFromNumber } from './helpers';
+import * as t from '../../../src/index';
+import type { TypeOf } from '../../../src/index';
+import { assertSuccess, assertFailure, assertStrictEqual, DateFromNumber } from '../../helpers';
 import * as assert from 'assert';
 
 describe('exact', () => {
@@ -122,7 +122,7 @@ describe('exact', () => {
   it('should fail validating an invalid value (refinement)', () => {
     const T = t.refinement(t.exactAll({ foo: t.String }), p => p.foo.length > 2);
     assertFailure(T.decode({ foo: 'foo', bar: 1 }), [
-      'Invalid value 1 supplied to : ({| foo: string |} | <function1>)/bar: never'
+      'Invalid value 1 supplied to : ({| foo: string |} | <function 1>)/bar: never'
     ]);
   });
 

@@ -1,7 +1,8 @@
 //@flow
 import * as assert from 'assert';
-import * as t from '../src/index';
-import { assertSuccess, assertFailure } from './helpers';
+import * as t from '../../src/index';
+import { assertSuccess, assertFailure } from '../helpers';
+import Bluebird from 'bluebird';
 
 const BAA = new t.Type<number, string, string>(
   'BAA',
@@ -20,6 +21,41 @@ const BAI = t.String.pipe(
 );
 
 describe('Type', () => {
+  describe('assert', () => {
+    it('should throw and use the function name as error message', () => {
+      const isErr = err => {
+        assert.ok(err instanceof t.AggregateError);
+        assert.deepEqual(err.messages(), ['Invalid value null supplied to : number']);
+        return true;
+      };
+      assert.throws(() => t.Number.assert(null), isErr);
+    });
+
+    it('should return value whene there are no errors', () => {
+      assert.deepEqual(t.Number.assert(1), 1);
+    });
+  });
+
+  describe('getAssert', () => {
+    it('should resolve correct values', () => {
+      const str: mixed = '1';
+      return Promise.resolve(str)
+        .then(BAI.getAssert())
+        .then(v => assert.strictEqual(v, 1));
+    });
+
+    it('should reject incorrect value', () => {
+      const str: mixed = 1;
+      return Bluebird.resolve(str)
+        .then(BAI.getAssert())
+        .then(() => assert.ok(false, 'should not resolve'))
+        .catch(err => {
+          assert.ok(err instanceof t.AggregateError);
+          assert.deepEqual(err.messages(), ['Invalid value 1 supplied to : T']);
+        });
+    });
+  });
+
   describe('pipe', () => {
     it('should assign a default name', () => {
       const AOI = t.String;
@@ -49,11 +85,5 @@ describe('Type', () => {
     it('should return an encoder', () => {
       assert.strictEqual(BAI.asEncoder().encode(2), '2');
     });
-  });
-});
-
-describe('getContextEntry', () => {
-  it('should return a ContextEntry', () => {
-    assert.deepEqual(t.getContextEntry('key', t.String), { key: 'key', type: t.String });
   });
 });

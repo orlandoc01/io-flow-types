@@ -13,9 +13,10 @@ import {
   String as stringType,
   Never,
   isObject,
-  values
+  values,
+  AggregateError
 } from './index.js';
-import type { MixedFlowType, TypeOf, OutputOf, Errors } from './index.js';
+import type { MixedFlowType, TypeOf, OutputOf } from './index.js';
 import type { Props } from './props';
 
 type MappedUnion = { [key: string]: MixedFlowType };
@@ -105,7 +106,7 @@ export function _union<Arr: MixedFlowTypeFlowTypeTypeArray>(
   return new Type(name, is, validate, makeEncode());
 
   function validate(m, c) {
-    const errors: Errors = [];
+    const errors = new AggregateError();
     for (let i = 0; i < len; i++) {
       const type = types[i];
       const validation = type.validate(m, appendContext(c, String(i), type));

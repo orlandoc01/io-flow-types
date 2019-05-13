@@ -6,15 +6,16 @@ import { isLeft } from '../fp';
 import {
   Type,
   Never,
-  getValidationError,
+  ValidationError,
   useIdentity,
   success,
   failures,
   identity,
   appendContext,
-  arrayType
+  arrayType,
+  AggregateError
 } from './index.js';
-import type { MixedFlowType, Errors } from './index.js';
+import type { MixedFlowType } from './index.js';
 
 export interface TupleFunc {
   <A: MixedFlowType, B: MixedFlowType, C: MixedFlowType, D: MixedFlowType, E: MixedFlowType>(
@@ -70,7 +71,7 @@ function _tuple<RTS: Array<MixedFlowType>>(types: RTS, name: string = `[${types.
       } else {
         const as = arrayValidation.value;
         let t: Array<any> = as;
-        const errors: Errors = [];
+        const errors = new AggregateError();
         for (let i = 0; i < len; i++) {
           const a = as[i];
           const type = types[i];
@@ -89,7 +90,7 @@ function _tuple<RTS: Array<MixedFlowType>>(types: RTS, name: string = `[${types.
           }
         }
         if (as.length > len) {
-          errors.push(getValidationError(as[len], appendContext(c, String(len), Never)));
+          errors.push(new ValidationError(as[len], appendContext(c, String(len), Never)));
         }
         return errors.length ? failures(errors) : success(t);
       }

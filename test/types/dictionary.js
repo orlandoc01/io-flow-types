@@ -1,7 +1,7 @@
 //@flow
 import * as assert from 'assert';
-import * as t from '../src/index';
-import { assertSuccess, assertFailure, assertStrictEqual, assertDeepEqual, string2, DateFromNumber } from './helpers';
+import * as t from '../../src/index';
+import { assertSuccess, assertFailure, assertStrictEqual, assertDeepEqual, string2, DateFromNumber } from '../helpers';
 
 describe('dictionary', () => {
   it('should properly typecheck values', () => {
@@ -71,7 +71,7 @@ describe('dictionary', () => {
     assertFailure(T1.decode([1]), ['Invalid value [1] supplied to : { [K: string]: number }']);
     assertFailure(T1.decode(new Number()), ['Invalid value 0 supplied to : { [K: string]: number }']);
     const d = new Date();
-    assertFailure(T1.decode(d), [`Invalid value ${JSON.stringify(d)} supplied to : { [K: string]: number }`]);
+    assertFailure(T1.decode(d), [`Invalid value ${t.toString(d)} supplied to : { [K: string]: number }`]);
     const T2 = t.dictionary(string2, t.Any);
     //NOTE: Changed this tests value unexpectedly
     assertFailure(T2.decode([1]), ['Invalid value [1] supplied to : { [K: string2]: any }']);

@@ -1,7 +1,7 @@
 //@flow
 import * as assert from 'assert';
-import * as t from '../src/index';
-import { assertSuccess, assertFailure, assertStrictEqual, assertDeepEqual, DateFromNumber } from './helpers';
+import * as t from '../../src/index';
+import { assertSuccess, assertFailure, assertStrictEqual, assertDeepEqual, DateFromNumber } from '../helpers';
 
 describe('tuple', () => {
   it('should properly typecheck values', () => {

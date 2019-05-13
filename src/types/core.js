@@ -1,20 +1,38 @@
 //@flow
-import { Left, Right, isLeft, isRight } from '../fp/index.js';
+import { Left, Right, isLeft, isRight, toString } from '../fp/index.js';
 import type { Either } from '../fp/index.js';
 
 export const identity = <A>(a: A): A => a;
+
 export type ContextEntry = {
   +key: string,
   +type: Decoder<any, any>
 };
-export type Predicate<A> = (val: A) => boolean;
 export type Context = $ReadOnlyArray<ContextEntry>;
-export type ValidationError = {
-  +value: mixed,
-  +context: Context
-};
-export type Errors = Array<ValidationError>;
-export type Validation<A> = Either<Errors, A>;
+export class ValidationError extends Error {
+  +value: mixed;
+  +context: Context;
+  message: string;
+  constructor(value: mixed, context: Context, message?: string) {
+    super();
+    this.value = value;
+    this.context = context;
+    this.message = message || `Invalid value ${toString(value)} supplied to ${getContextPath(context)}`;
+    workaroundExtendBuiltins(this, ValidationError);
+  }
+}
+export class AggregateError extends Array<ValidationError> {
+  constructor(...args: ValidationError[]) {
+    super(...args);
+    workaroundExtendBuiltins(this, AggregateError);
+  }
+  messages(): Array<string> {
+    return [...this.map(e => e.message)];
+  }
+}
+export type Validation<A> = Either<AggregateError, A>;
+
+export type Predicate<A> = (val: A) => boolean;
 export type Is<A> = (m: mixed) => boolean;
 export type Validate<-I, A> = (i: I, context: Context) => Validation<A>;
 export type Decode<-I, A> = (i: I) => Validation<A>;
@@ -62,6 +80,17 @@ export class Type<A, +O = A, I = mixed> implements Decoder<I, A>, Encoder<A, O> 
   decode(i: I): Validation<A> {
     return this.validate(i, getDefaultContext(this));
   }
+  /** a version of `validate` which will throw if unsuccessful */
+  assert(i: I): A {
+    const result = this.validate(i, getDefaultContext(this));
+    if (isRight(result)) {
+      return result.value;
+    }
+    throw result.value;
+  }
+  getAssert(): I => A {
+    return (i: I) => this.assert(i);
+  }
   pipe<B>(ab: Type<B, A, A>, name?: string): Type<B, O, I> {
     const custEncode = b => this.encode(ab.encode(b));
     const encode = this.encode === identity && ab.encode === identity ? (identity: any) : custEncode;
@@ -87,13 +116,6 @@ export class Type<A, +O = A, I = mixed> implements Decoder<I, A>, Encoder<A, O> 
   }
 }
 
-export const getFunctionName = (f: Function | { displayName: string } | { name: string }): string =>
-  (f: any).displayName || (f: any).name || `<function${(f: any).length}>`;
-
-export const getContextEntry = (key: string, type: Decoder<any, any>): ContextEntry => ({ key, type });
-
-export const getValidationError = (value: mixed, context: Context): ValidationError => ({ value, context });
-
 export const getDefaultContext = (type: Decoder<any, any>): Context => ([{ key: '', type }]: Context);
 
 export const appendContext = (c: Context, key: string, type: Decoder<any, any>): Context => {
@@ -106,12 +128,15 @@ export const appendContext = (c: Context, key: string, type: Decoder<any, any>):
   return (r: Context);
 };
 
-export const failures = <T>(errors: Errors): Validation<T> => new Left(errors);
+export const failures = <T>(errors: AggregateError): Validation<T> => new Left(errors);
 
-export const failure = <T>(value: mixed, context: Context): Validation<T> =>
-  failures([getValidationError(value, context)]);
+export const failure = <T>(value: mixed, context: Context, message?: string): Validation<T> => {
+  const errs = new AggregateError();
+  errs.push(new ValidationError(value, context, message));
+  return failures(errs);
+};
 
-export const success = <T>(value: T): Validation<T> => new Right<Errors, T>(value);
+export const success = <T>(value: T): Validation<T> => new Right<AggregateError, T>(value);
 
 export const useIdentity = (types: $ReadOnlyArray<AnyFlowType>): boolean => {
   return types.every(type => type.encode === identity);
@@ -129,4 +154,18 @@ export function mapValues<P: { +[key: string]: mixed }, F: ($Values<P>, $Keys<P>
     result[key] = iteratee(vals[key], key);
   });
   return result;
+}
+
+function getContextPath(context: Context): string {
+  return context.map(({ key, type }) => `${key}: ${type.name}`).join('/');
+}
+
+function workaroundExtendBuiltins(context, subclass) {
+  // Temporary workaround for https://github.com/istanbuljs/babel-plugin-istanbul/issues/143 #TODO
+  /* eslint-disable no-proto */
+  // $FlowExpectError
+  context.constructor = subclass;
+  // $FlowExpectError
+  context.__proto__ = subclass.prototype;
+  /* eslint-enable */
 }

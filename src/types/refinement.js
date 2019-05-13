@@ -1,6 +1,6 @@
 //@flow
-import { isLeft } from '../fp';
-import { Type, success, failure, getFunctionName, Number } from './index.js';
+import { isLeft, getFunctionName } from '../fp';
+import { Type, success, failure, Number } from './index.js';
 import type { Predicate, AnyFlowType } from './index.js';
 
 export function refinement<RT: AnyFlowType>(

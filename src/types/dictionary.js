@@ -3,8 +3,18 @@
 // dictionaries
 //
 import { isLeft } from '../fp';
-import { Type, Any, isDictionary, success, failures, identity, appendContext, Dictionary } from './index.js';
-import type { MixedFlowType, AnyFlowType, TypeOf, OutputOf, Errors } from './index.js';
+import {
+  Type,
+  Any,
+  isDictionary,
+  success,
+  failures,
+  identity,
+  appendContext,
+  Dictionary,
+  AggregateError
+} from './index.js';
+import type { MixedFlowType, AnyFlowType, TypeOf, OutputOf } from './index.js';
 
 export type TypeOfDictionary<D: AnyFlowType, C: AnyFlowType> = { [K: TypeOf<D>]: TypeOf<C> };
 
@@ -30,7 +40,7 @@ export const dictionary = <D: MixedFlowType, C: MixedFlowType>(
       }
       const o = dictionaryValidation.value;
       const a: { [key: string]: any } = {};
-      const errors: Errors = [];
+      const errors = new AggregateError();
       const keys = Object.keys(o);
       const len = keys.length;
       let changed: boolean = false;

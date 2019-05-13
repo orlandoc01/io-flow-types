@@ -3,8 +3,8 @@
 // arrays
 //
 import { isLeft } from '../fp';
-import { Type, success, failures, identity, arrayType, isArray, appendContext } from './index.js';
-import type { MixedFlowType, TypeOf, OutputOf, Errors } from './index.js';
+import { Type, success, failures, identity, arrayType, isArray, appendContext, AggregateError } from './index.js';
+import type { MixedFlowType, TypeOf, OutputOf } from './index.js';
 
 export function array<RT: MixedFlowType>(
   type: RT,
@@ -20,7 +20,7 @@ export function array<RT: MixedFlowType>(
       return arrayValidation;
     }
     const xs = arrayValidation.value;
-    const errors: Errors = [];
+    const errors = new AggregateError();
     const a: Array<TypeOf<RT>> = xs.reduce(validateValue, xs);
     return errors.length ? failures(errors) : success(a);
 
