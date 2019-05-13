@@ -3,7 +3,7 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-## 0.2.0 (fc80726)
+## 0.2.0
 ### Added
 - Add new `ValidationError` class with default error message using `PathReporter` logic
 - Add new `AggregateError` class for error handling multiple `ValidationError` instances
@@ -14,6 +14,7 @@ high state of flux, you're at risk of it changing without notice.
 - Add `getAssert` method on `Type` class
 - `toString` will now render the name for function or a default string with its arity
 - Restructured tests directory
+- Add optional `message` arg to `failure`
 ### Removed
 - remove `PathReporter` - `ValidationError` message uses path logic for message
 - remove `ThrowReporter` - added `assert` method mimicks the logic

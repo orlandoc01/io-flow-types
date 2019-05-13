@@ -5,6 +5,22 @@
 # Summary
 The work that gcanti has done with [io-ts](https://github.com/gcanti/io-ts) is really useful, but it relies on a lot of language semantics that are exclusive to Typescript and the work on [flow-io](https://github.com/gcanti/flow-io) is now deprecated and no longer maintained. As a result, I have forked his work and refactored a lot of the existing combinators/classes so they more easily align with the semantics of [Flow](https://flow.org/). 
 
+# Table of Contents
+- [The idea](#the-idea)
+- [Error handling](#error-handling)
+    - [Error reporters](#error-reporters)
+- [Implemented types / combinators](#implemented-types--combinators)
+- [Flow compatibility](#flow-compatibility)
+- [Flow integration](#flow-integration)
+- [Mixing required and optional props](#mixing-required-and-optional-props)
+- [Union Maps](#union-maps)
+- [Refinements](#refinements)
+- [Custom types](#custom-types)
+  - [Custom Error Messages](#custom-error-messages)
+- [Tips and Tricks](#tips-and-tricks)
+  - [Is there a way to turn the checks off in production code?](#is-there-a-way-to-turn-the-checks-off-in-production-code)
+  - [Union of string literals](#union-of-string-literals)
+
 # The idea
 
 Blog post: ["Typescript and validations at runtime boundaries"](https://lorefnon.tech/2018/03/25/typescript-and-validations-at-runtime-boundaries/) by [@lorefnon](https://github.com/lorefnon)
@@ -85,6 +101,84 @@ Person.assert(JSON.parse('{"name":"John","age":43}')) // => {name: "John", age: 
 //assertion throws
 Person.assert(JSON.parse('{"name":"John"}')) // => throws
 ```
+# Error handling
+
+An error that is uncovered during decoding will be packed into an instance of the `ValidationError` class.
+```javascript
+class ValidationError extends Error {
+  +value: mixed;
+  +context: Context;
+  +message: string;
+  constructor(value: mixed, context: Context, message?: string)
+}
+```
+
+Besides having a `message` property, as is standard for Error classes in JavaScript, it also references the value which failed validation along with the context that was used in decoding. By default, if a message isn't supplied, a default one will be constructed based on the context reference
+
+All errors that are uncovered during decoding will be packed into an instance of the `AggregateErrors` class, which is a subclass of `Array<ValidationError>`. 
+```javascript
+class AggregateError extends Array<ValidationError> {
+  constructor(...args: ValidationError[])
+  messages(): Array<string>
+}
+```
+Errors can be still be extracted individually as elements of the wrapped array, and the messages can be extracted all at once via the introduction of the `messages()` method on this class.
+
+An example of Error inspection is shown below:
+```javascript
+const Person = t.inexactAll({
+  name: t.String,
+  age: t.Number
+})
+
+// validation failed with decode
+const leftErr = Person.decode(JSON.parse('{}')) // => left([...])
+
+if (leftErr.tag === 'Left') {
+  const errs = leftErr.value;
+  console.log(errs[0].message)
+  // => Invalid value undefined supplied to : { name: string, age: number }/name: string
+  console.log(errs[1].message)
+  // => Invalid value undefined supplied to : { name: string, age: number }/age: number
+}
+
+try {
+ // validation throws with assert
+ Person.assert(JSON.parse('{}')) // => left([...])
+} catch (errs) {
+  console.log(errs[0].message)
+  // => Invalid value undefined supplied to : { name: string, age: number }/name: string
+  console.log(errs[1].message)
+  // => Invalid value undefined supplied to : { name: string, age: number }/age: number
+}
+```
+### Error reporters
+
+A reporter implements the following interface
+
+```javascript
+interface Reporter<A> {
+  report: (validation: Validation<any>) => A
+}
+```
+
+Example
+
+```javascript
+import * as t from 'io-flow-types'
+
+const getPaths = <A>(v: t.Validation<A>): Array<string> => {
+  return v.fold(errors => errors.map(error => error.context.map(({ key }) => key).join('.')), () => ['no errors'])
+}
+
+const Person = t.type({
+  name: t.string,
+  age: t.number
+})
+
+console.log(getPaths(Person.decode({}))) // => [ '.name', '.age' ]
+```
+
 # Implemented types / combinators
 
 ```javascript
@@ -127,68 +221,6 @@ import * as t from 'io-flow-types'
 # Flow compatibility
 
 The library is tested against a range of `flow-bin` versions, which is listed as the `peerDependencies` section of this NPM package.
-
-# Error reporters
-
-A reporter implements the following interface
-
-```javascript
-interface Reporter<A> {
-  report: (validation: Validation<any>) => A
-}
-```
-
-This package exports two default reporters
-
-- `PathReporter: Reporter<Array<string>>`
-- `ThrowReporter: Reporter<void>`
-
-Example
-
-```javascript
-import { PathReporter } from 'io-flow-types/lib/PathReporter'
-import { ThrowReporter } from 'io-flow-types/lib/ThrowReporter'
-
-const result = Person.decode({ name: 'John' })
-
-console.log(PathReporter.report(result))
-// => ['Invalid value undefined supplied to : { name: string, age: number }/age: number']
-
-ThrowReporter.report(result)
-// => throws 'Invalid value undefined supplied to : { name: string, age: number }/age: number'
-```
-
-You can define your own reporter. `Errors` has the following type
-
-```javascript
-type ContextEntry = {
-  +key: string
-  +type: Decoder<any, any>
-}
-type Context = $ReadonlyArray<ContextEntry> {}
-type ValidationError = {
-  +value: mixed
-  +context: Context
-}
-type Errors = Array<ValidationError> {}
-```
-
-Example
-
-```javascript
-import * as t from 'io-flow-types'
-
-const getPaths = <A>(v: t.Validation<A>): Array<string> => {
-  return v.fold(errors => errors.map(error => error.context.map(({ key }) => key).join('.')), () => ['no errors'])
-}
-
-const Person = t.type({
-  name: t.string,
-  age: t.number
-})
-
-console.log(getPaths(Person.decode({}))) // => [ '.name', '.age' ]
-```
 
 # Flow integration
 
@@ -314,6 +346,28 @@ DateFromString.decode('foo')
 ```
 
 Note that you can **deserialize** while validating.
+
+### Custom Error Messages
+
+You can set your own error message by providing a `message` argument to `failure`
+
+Example
+
+```ts
+const NumberFromString = new t.Type<number, string, unknown>(
+  'NumberFromString',
+  t.number.is,
+  (u, c) =>
+    t.string.validate(u, c).chain(s => {
+      const n = +s
+      return isNaN(n) ? t.failure(u, c, 'cannot parse to a number') : t.success(n)
+    }),
+  String
+)
+
+console.log(PathReporter.report(NumberFromString.decode('a')))
+// => ['cannot parse to a number']
+```
 
 # Tips and Tricks
 
