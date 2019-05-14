@@ -164,7 +164,7 @@ Promise.resolve('{}')
 ```
 ### Error reporters
 
-A reporter implements the following interface
+To implement custom error reporters, it's recommended to design an object which can implement the following interface.
 
 ```javascript
 interface Reporter<A> {
@@ -172,7 +172,9 @@ interface Reporter<A> {
 }
 ```
 
-Example
+The `report` method above should be prepared to take a `Validation` instance, which will be either `left(AggregateErrors)` or `right(T)` where `T` is the correctly decoded type. The reporter should check for and then use an instance of the `AggregateErrors` class and perform the necessary transformation, using the `context` and `value` properties on `ValidationError` instances packed inside `AggregateErrors` instance.
+
+The example below implements a `getPaths` function which can be used as the `report` method on a Reporter-like object. 
 
 ```javascript
 import * as t from 'io-flow-types'
