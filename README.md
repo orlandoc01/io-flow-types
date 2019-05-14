@@ -84,10 +84,7 @@ export const string = new StringType()
 A runtime type can be used to validate an object in memory (for example an API payload)
 
 ```javascript
-const Person = t.inexactAll({
-  name: t.String,
-  age: t.Number
-})
+const Person = t.inexactAll({name: t.String, age: t.Number})
 
 // validation succeeded
 Person.decode(JSON.parse('{"name":"John","age":43}')) // => right({name: "John", age: 43})
@@ -98,8 +95,13 @@ Person.decode(JSON.parse('{"name":"John"}')) // => left([...])
 //assertion succeeded
 Person.assert(JSON.parse('{"name":"John","age":43}')) // => {name: "John", age: 43}
 
-//assertion throws
-Person.assert(JSON.parse('{"name":"John"}')) // => throws
+//async assertion succeeded
+Promise.resolve('{"name":"John","age":43}')
+  .then(JSON.parse)
+  .then(Person.getAssert())
+  .then(val => {
+    return val // => {name: "John", age: 43})
+  });
 ```
 # Error handling
 
@@ -126,10 +128,7 @@ Errors can be still be extracted individually as elements of the wrapped array, 
 
 An example of Error inspection is shown below:
 ```javascript
-const Person = t.inexactAll({
-  name: t.String,
-  age: t.Number
-})
+const Person = t.inexactAll({name: t.String, age: t.Number})
 
 // validation failed with decode
 const leftErr = Person.decode(JSON.parse('{}')) // => left([...])
@@ -151,6 +150,17 @@ try {
   console.log(errs[1].message)
   // => Invalid value undefined supplied to : { name: string, age: number }/age: number
 }
+
+////async validation
+Promise.resolve('{}')
+  .then(JSON.parse)
+  .then(Person.getAssert())
+  .catch(errs => {
+    console.log(errs[0].message)
+    // => Invalid value undefined supplied to : { name: string, age: number }/name: string
+    console.log(errs[1].message)
+    // => Invalid value undefined supplied to : { name: string, age: number }/age: number
+  });
 ```
 ### Error reporters
 
