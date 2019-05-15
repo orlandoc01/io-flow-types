@@ -174,19 +174,20 @@ interface Reporter<A> {
 
 The `report` method above should be prepared to take a `Validation` instance, which will be either `left(AggregateErrors)` or `right(T)` where `T` is the correctly decoded type. The reporter should check for and then use an instance of the `AggregateErrors` class and perform the necessary transformation, using the `context` and `value` properties on `ValidationError` instances packed inside `AggregateErrors` instance.
 
-The example below implements a `getPaths` function which can be used as the `report` method on a Reporter-like object. 
+The example below implements a `getPaths` function which can be used as the `report` method on a Reporter-like object. It basically will take validations that fail and print the paths that failed. 
 
 ```javascript
 import * as t from 'io-flow-types'
 
-const getPaths = <A>(v: t.Validation<A>): Array<string> => {
-  return v.fold(errors => errors.map(error => error.context.map(({ key }) => key).join('.')), () => ['no errors'])
+const getPathFromError = (error: t.ValidationError) => {
+  return error.context.map(({ key }) => key).join('.');
 }
 
-const Person = t.type({
-  name: t.string,
-  age: t.number
-})
+const getPaths = <A>(v: t.Validation<A>): Array<string> => {
+  return v.fold(errors => [...errors].map(getPathFromError), () => ['no errors'])
+}
+
+const Person = t.exactAll({name: t.String, age: t.Number })
 
 console.log(getPaths(Person.decode({}))) // => [ '.name', '.age' ]
 ```
